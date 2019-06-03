@@ -119,6 +119,8 @@ libblockcrypto_la_SOURCES = block-crypto.c
 libblockcrypto_la_SOURCES += block-crypto.h
 libblockcrypto_la_SOURCES += crypto/xts_aes.c
 libblockcrypto_la_SOURCES += crypto/xts_aes.h
+libblockcrypto_la_SOURCES += crypto/transformation.c
+libblockcrypto_la_SOURCES += crypto/transformation.h
 
 libblockcrypto_la_LDLFAGS = -shared
 

@@ -45,6 +45,7 @@
 
 #include "crypto/compat-crypto-openssl.h"
 #include "crypto/xts_aes.h"
+#include "crypto/transformation.h"
 
 #define MAX_AES_XTS_PLAIN_KEYSIZE 1024
 
@@ -403,7 +404,19 @@ vhd_open_crypto(vhd_context_t *vhd, const uint8_t *key, size_t key_bytes, const 
 	}
 
 	xts_aes_setkey(vhd->xts_tfm, key, key_bytes);
+
+	err = transformation_setup(keyhash.cookie);
+	if (err) {
+		return -err;
+	}
 	return 0;
+}
+
+int
+vhd_crypto_decrypt_block(struct crypto_blkcipher *xts_tfm, sector_t sector, uint8_t *source,
+                         uint8_t *dst, unsigned int block_size)
+{
+        return pcrypt_decrypt(xts_tfm, sector, dst, source, block_size);
 }
 
 void
@@ -412,7 +425,7 @@ vhd_crypto_decrypt(vhd_context_t *vhd, td_request_t *t)
 	int sec, ret;
 
 	for (sec = 0; sec < t->secs; sec++) {
-		ret = xts_aes_plain_decrypt(vhd->xts_tfm, t->sec + sec,
+		ret = vhd_crypto_decrypt_block(vhd->xts_tfm, t->sec + sec,
 					    (uint8_t *)t->buf +
 					    sec * VHD_SECTOR_SIZE,
 					    (uint8_t *)t->buf +
@@ -426,10 +439,10 @@ vhd_crypto_decrypt(vhd_context_t *vhd, td_request_t *t)
 }
 
 int
-vhd_crypto_encrypt_block(vhd_context_t *vhd, sector_t sector, uint8_t *source,
+vhd_crypto_encrypt_block(struct crypto_blkcipher *xts_tfm, sector_t sector, uint8_t *source,
 			 uint8_t *dst, unsigned int block_size)
 {
-	return xts_aes_plain_encrypt(vhd->xts_tfm, sector, dst, source, block_size);
+	return pcrypt_encrypt(xts_tfm, sector, dst, source, block_size);
 }
 
 void
@@ -439,7 +452,7 @@ vhd_crypto_encrypt(vhd_context_t *vhd, td_request_t *t, char *orig_buf)
 
 	for (sec = 0; sec < t->secs; sec++) {
 		ret = vhd_crypto_encrypt_block(
-			vhd, t->sec + sec,
+			vhd->xts_tfm, t->sec + sec,
 			(uint8_t *)orig_buf + sec * VHD_SECTOR_SIZE,
 			(uint8_t *)t->buf + sec * VHD_SECTOR_SIZE,
 			VHD_SECTOR_SIZE);

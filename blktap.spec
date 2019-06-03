@@ -1,7 +1,7 @@
 Summary: blktap user space utilities
 Name: blktap
 Version: master
-Release: 1.0
+Release: pluggable
 License: BSD
 Group: System/Hypervisor
 URL: https://github.com/xapi-project/blktap

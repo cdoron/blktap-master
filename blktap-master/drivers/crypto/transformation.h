@@ -27,13 +27,16 @@
  */
 
 /*
- * Copyright (c) 2010 Citrix Systems, Inc.
+ * Copyright (c) 2014 Citrix Systems, Inc.
  */
 
-typedef uint64_t sector_t;
+typedef int (*crypt_encrypt)(struct crypto_blkcipher *xts_tfm, sector_t sector,
+                      uint8_t *dst_buf, uint8_t *src_buf, unsigned int nbytes);
 
-void vhd_crypto_encrypt(vhd_context_t *vhd, td_request_t *t, char *orig_buf);
-void vhd_crypto_decrypt(vhd_context_t *vhd, td_request_t *t);
+typedef int (*crypt_decrypt)(struct crypto_blkcipher *xts_tfm, sector_t sector,
+                      uint8_t *dst_buf, uint8_t *src_buf, unsigned int nbytes);
 
-int vhd_crypto_encrypt_block(struct crypto_blkcipher *xts_tfm, sector_t sector, uint8_t *dst_buf, uint8_t *src_buf, unsigned int nbytes);
-int vhd_crypto_decrypt_block(struct crypto_blkcipher *xts_tfm, sector_t sector, uint8_t *dst_buf, uint8_t *src_buf, unsigned int nbytes);
+extern crypt_encrypt pcrypt_encrypt;
+extern crypt_decrypt pcrypt_decrypt;
+
+int transformation_setup(int transformation_method);

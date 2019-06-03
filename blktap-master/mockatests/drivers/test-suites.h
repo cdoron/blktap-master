@@ -39,11 +39,13 @@
 void test_stats_normal_buffer(void **state);
 void test_stats_realloc_buffer(void **state);
 void test_stats_realloc_buffer_edgecase(void **state);
+void test_encryption1(void **state);
 
 static const struct CMUnitTest tapdisk_stats_tests[] = {
 	cmocka_unit_test(test_stats_normal_buffer),
 	cmocka_unit_test(test_stats_realloc_buffer),
-	cmocka_unit_test(test_stats_realloc_buffer_edgecase)
+	cmocka_unit_test(test_stats_realloc_buffer_edgecase),
+	cmocka_unit_test(test_encryption1)
 };
 
 
