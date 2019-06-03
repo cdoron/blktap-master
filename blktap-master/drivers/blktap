@@ -1,0 +1,10 @@
+# This configuration file is NOT used by logrotate, it is included by
+# /etc/logrotate-xenserver.conf.
+/var/log/blktap/tapdisk.*.log {
+    missingok
+    nocreate
+    sharedscripts
+    postrotate
+               /usr/bin/killall -q -HUP tapdisk
+    endscript
+}

@@ -1,0 +1,92 @@
+# dev + obj
+*~
+*.o
+*.a
+*.gcno
+*.gcda
+*.lo
+*.la
+*.log
+*.so
+*.so.*
+*.trs
+.deps
+.libs
+cscope.*
+TAGS
+VERSION
+
+# ac/am
+Makefile.in
+/aclocal.m4
+/autom4te.cache/
+/compile
+/config.*
+/configure
+/depcomp
+/install-sh
+/libtool
+/ltmain.sh
+/m4/
+/missing
+/stamp-h1
+
+# executables
+/drivers/lock-util
+/drivers/tapdisk-stream
+/drivers/td-rated
+/drivers/td-util
+/drivers/tapdisk
+/cbt/cbt-util
+/control/tap-ctl
+/cpumond/cpumond
+/part/part-util
+/lvm/lvm-util
+/mockatests/cbt/test-cbt-util
+/mockatests/drivers/test-drivers
+/vhd/vhd-index
+/vhd/vhd-update
+/vhd/vhd-util
+/vhd/lib/test/random-copy
+/vhd/lib/test/test-snapshot
+/tapback/tapback
+/test-driver
+
+# generated makefiles
+/Makefile
+/lvm/Makefile
+/part/Makefile
+/drivers/Makefile
+/drivers/crypto/Makefile
+/cbt/Makefile
+/control/Makefile
+/cpumond/Makefile
+/include/Makefile
+/mockatests/Makefile
+/mockatests/cbt/Makefile
+/mockatests/drivers/Makefile
+/mockatests/wrappers/Makefile
+/vhd/Makefile
+/vhd/lib/Makefile
+/vhd/lib/test/Makefile
+/tapback/Makefile
+mk/config.log
+
+# dist output
+/blktap-*.tar.*
+/blktap-*/
+
+# doxygen
+/html/
+
+# tests
+/results
+
+# ctags
+tags
+
+# vim swap files
+*.swp
+
+# diff/patch
+*.orig
